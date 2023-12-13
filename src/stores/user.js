@@ -13,19 +13,22 @@ export const useUserStore = defineStore("user",{
     getters: {
 		getToken(state){
 			return state.token
+		},
+		isLoggedIn(state){
+			console.log(state.token);
+			return state.token != null;
 		}
 	},
     actions: {
 		async login(credentials){
 			try {
-				console.log('test123');
-				console.log(credentials);
 				var response = await axios.post(api_url + '/signin', {
                     uname : credentials.username,
                     pwd : credentials.password
                 });
                 if (response.status == '200'){
-                    this.token = response.data['token'];
+					this.token = response.data['token'];
+					console.log(this.token);
                     toast.info('Signed in');
                     return true;   
                 }

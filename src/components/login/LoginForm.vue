@@ -20,7 +20,7 @@
 
 <script>
 import profileImg from '../../assets/pngegg.png';
-import { mapActions } from 'pinia'
+import { mapActions, mapState } from 'pinia'
 import { useUserStore } from '../../stores/user'
 export default {
     name: 'Login',
@@ -28,13 +28,16 @@ export default {
         return {
             username : '',
             password : '',
-            isLoggedIn : false,
             isLoading : false,
             profileImg: profileImg
         }
     },
     methods: {
         ...mapActions(useUserStore, ['login']),
+        ...mapState(useUserStore, {
+            isLoggedIn: 'isLoggedIn',      
+            double: (store) => store.doubleCount,
+        }),
         async signin(){            
             try{
                 this.isLoading = true;
