@@ -15,7 +15,6 @@ export const useUserStore = defineStore("user",{
 			return state.token
 		},
 		isLoggedIn(state){
-			console.log(state.token);
 			return state.token != null;
 		}
 	},
@@ -44,4 +43,5 @@ export const useUserStore = defineStore("user",{
 			}
 		}
 	},
+	persist: true,
 })

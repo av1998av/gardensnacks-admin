@@ -35,8 +35,7 @@ export default {
     methods: {
         ...mapActions(useUserStore, ['login']),
         ...mapState(useUserStore, {
-            isLoggedIn: 'isLoggedIn',      
-            double: (store) => store.doubleCount,
+            isLoggedIn: 'isLoggedIn'
         }),
         async signin(){            
             try{
@@ -45,11 +44,9 @@ export default {
 					          username : this.username,
                     password : this.password 
 				        });
-                var success =  
-                this.isLoading = false;
                 if(success){
-                    this.isLoggedIn = true;
-                    this.appointmentsPageLoad();
+                    this.isLoading = false;
+                    this.$router.push({ name : 'orders' })
                 }
             }
             catch(error){

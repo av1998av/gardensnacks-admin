@@ -1,11 +1,11 @@
 <template>
-  <div v-if="isLoggedIn">
+  <div v-if="isLoggedIn()">
     <header-bar></header-bar>
     <RouterView />
   </div>
-  <!-- <div v-else>
+  <div v-else>
     <RouterView />
-  </div>   -->
+  </div>  
 </template>
 
 
@@ -21,9 +21,6 @@ export default {
     ...mapState(useUserStore, {
       isLoggedIn: 'isLoggedIn',
     }),
-  },
-  created(){
-    console.log(this.isLoggedIn());
   }
 }
 </script>
