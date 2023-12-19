@@ -17,11 +17,14 @@
     </tr>    
   </tbody>
 </table>
+<user-profile></user-profile>
 </template>
 
 <script>
+import UserProfile from './UserProfile.vue';
 export default {
-	props: ['summary']
+	props: ['summary'],
+  components : {UserProfile}
 }
 </script>
 

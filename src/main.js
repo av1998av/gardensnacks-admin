@@ -7,6 +7,8 @@ import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import BaseSpinner from './components/ui/BaseSpinner.vue';
 import { useUserStore } from './stores/user';
+import WaveUI from 'wave-ui'
+import 'wave-ui/dist/wave-ui.css'
 
 import App from './App.vue'
 import router from './router'
@@ -18,6 +20,7 @@ const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 app.use(pinia)
 app.use(router)
+app.use(WaveUI)
 app.component('base-spinner',BaseSpinner);
 app.use(Toast, options);
 
