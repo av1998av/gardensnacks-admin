@@ -16,14 +16,21 @@ export const useOrderStore = defineStore("order",{
 		}
 	},
     actions: {
-		async fetchOrders(token, date){
+		async fetchOrders(token, date, status){
 			try {
 				let config = {
 					headers: {
 						'Authorization' : token
 					}
 				}
-				var response = await axios.get(api_url + '/summary/' + date, config);
+				var request_url = api_url + '/summary?';
+				if(date){
+					request_url += 'date='+date+"&"
+				}
+				if(status){
+					request_url += 'satus='+status+'&'
+				}
+				var response = await axios.get(request_url, config);
                 if (response.status == '200'){
 					this.orders = response.data['message'];
 					console.log(this.orders);
