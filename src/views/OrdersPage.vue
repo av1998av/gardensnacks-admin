@@ -5,16 +5,21 @@
   <div class="row mt-4 text-center">
       <div class="row">
         <div class="col-md-5 col-12 mt-2">
-          <input type="date" class="form-control form-control-lg w-100">
+          <input type="date" v-model="selectedDate" class="form-control form-control-lg w-100">
         </div>
         <div class="col-md-5 col-12 mt-2">
-          <input type="text" class="form-control form-control-lg w-100" placeholder="status">
+          <select name="cars" class="form-control form-control-lg w-100" v-model="selectedstatus">
+            <option value="created">Created</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
         </div>
         <div class="col-md-1 col-12 mt-2">
-          <button class="btn btn-primary btn-lg">Search</button> 
+          <button class="btn btn-primary btn-lg" v-on:click="fetchOrdersFromStore()">Search</button> 
         </div>
         <div class="col-md-1 col-12 mt-2">
-          <button class="btn btn-danger btn-lg">Clear</button> 
+          <button class="btn btn-danger btn-lg" v-on:click="clearFilters()">Clear</button> 
         </div>
       </div>    
   </div>
@@ -31,6 +36,8 @@ export default {
   components : { OrderGrid },
   data(){
         return {
+            selectedDate : new Date().toISOString().slice(0,10),
+            selectedstatus : 'created',
             isLoading : false,
             summary: []           
         }
@@ -43,11 +50,15 @@ export default {
         ...mapState(useOrderStore, {
             getOrders: 'getOrders'
         }),
+        clearFilters(){
+          this.selectedDate = null;
+          this.selectedstatus = null;
+        },
         async fetchOrdersFromStore(){            
             try{
                 this.isLoading = true;
                 var token = this.getToken();
-                var success = await this.fetchOrders(token,'2023-10-24','cancelled');
+                var success = await this.fetchOrders(token,this.selectedDate,this.selectedstatus);
                 if(success){
                     this.isLoading = false;
                     this.summary = this.getOrders();

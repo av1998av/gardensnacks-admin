@@ -28,8 +28,9 @@ export const useOrderStore = defineStore("order",{
 					request_url += 'date='+date+"&"
 				}
 				if(status){
-					request_url += 'satus='+status+'&'
+					request_url += 'status='+status+'&'
 				}
+				request_url = request_url.slice(-1) == '&' ? request_url.slice(0,-1) : request_url; 
 				var response = await axios.get(request_url, config);
                 if (response.status == '200'){
 					this.orders = response.data['message'];
