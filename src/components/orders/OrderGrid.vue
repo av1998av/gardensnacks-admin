@@ -18,8 +18,13 @@
       <td><button class="btn btn-success btn-sm" v-on:click="loadUserAddress(item.Address)">Address</button></td>
       <td><button class="btn btn-danger btn-sm">Bill</button></td>
       <td>{{item.status}}</td>
-      <td>GPM00123000123</td>
-      <td><button class="btn btn-warning btn-sm">Add Shipping info</button></td>
+      <td>
+        <span v-if="isShippingInfoAvl(item)">{{item.Payment[0].OrderDispatch['trackingId']}}</span>        
+      </td>
+      <td>
+        <span v-if="isShippingInfoAvl(item)">{{item.Payment[0].OrderDispatch['courierName']}}</span>        
+        <button v-else class="btn btn-warning btn-sm">Add Shipping info</button>
+      </td>
     </tr>    
   </tbody>
 </table>
@@ -54,6 +59,12 @@ export default {
     loadUserAddress(address){
       this.currAddress = address;
       this.showAddressOverlay = true;
+    },
+    isShippingInfoAvl(item){
+      if(item.Payment[0].OrderDispatch){
+        return true
+      }
+      return false
     }
   }
 }
