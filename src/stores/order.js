@@ -48,6 +48,38 @@ export const useOrderStore = defineStore("order",{
 				toast.error(error.response.data.message);
                 return false;
 			}
+		},
+		async sendDispatchNotification(token, paymentId, courierName, trackingId){
+			console.log(token);
+			console.log(paymentId);
+			console.log(courierName);
+			console.log(trackingId);
+			try {
+				let config = {
+					headers: {
+						'Authorization' : token
+					}
+				}
+				var request_url = api_url + '/dispatch';
+				var response = await axios.post(request_url,{
+					"paymentId" : paymentId,
+    				"trackingId" : trackingId,
+    				"courierName" : courierName 
+				}, config);
+                if (response.status == '200'){
+					toast.info('Dispatch Notification sent');
+                    return true;   
+                }
+                else{
+                    toast.error(response.data['message']);                    
+                    return false;
+                }
+			}
+			catch(error){
+				console.log(error);
+				toast.error(error.response.data.message);
+                return false;
+			}
 		}
 	},
 	persist: true,

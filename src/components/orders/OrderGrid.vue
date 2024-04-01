@@ -23,7 +23,7 @@
       </td>
       <td>
         <span v-if="isShippingInfoAvl(item)">{{item.Payment[0].OrderDispatch['courierName']}}</span>        
-        <button v-else class="btn btn-warning btn-sm">Add Shipping info</button>
+        <button v-else class="btn btn-warning btn-sm" v-on:click="showDispatchForm(item.Payment[item.Payment.length-1])">Add Shipping info</button>
       </td>
     </tr>    
   </tbody>
@@ -35,26 +35,39 @@
 <w-overlay v-model="showAddressOverlay">
 	<user-address :address="currAddress"></user-address>
 </w-overlay>
+
+<w-overlay v-model="showDispatchFormOverlay">
+	<dispatch-form @sendDispatchNotification="sendDispatchNotificationToStore" :paymentId="currPaymentId"></dispatch-form>
+</w-overlay>
 </template>
 
 <script>
 import UserProfile from './UserProfile.vue';
 import UserAddress from './UserAddress.vue';
+import DispatchForm from './DispatchForm.vue';
 export default {
   data(){
     return {
       showUserOverlay: false,
       showAddressOverlay: false,
+      showDispatchFormOverlay: false,
+      currPaymentId: null,
       currUser: null,
       currAddress : null,
     }
   },
+  emits: ['sendDispatchNotificationToParent'],
 	props: ['summary'],
-  components : {UserProfile, UserAddress},
+  components : {UserProfile, UserAddress, DispatchForm},
   methods: {
     loadUserProfile(user){
       this.currUser = user;
       this.showUserOverlay = true;
+    },
+    showDispatchForm(payment){
+      console.log(payment);
+      this.showDispatchFormOverlay = true;
+      this.currPaymentId = payment["paymentId"];
     },
     loadUserAddress(address){
       this.currAddress = address;
@@ -65,6 +78,9 @@ export default {
         return true
       }
       return false
+    },
+    sendDispatchNotificationToStore(paymentId, trackingId, courier){
+      this.$emit('sendDispatchNotificationToParent', paymentId, trackingId, courier);
     }
   }
 }
