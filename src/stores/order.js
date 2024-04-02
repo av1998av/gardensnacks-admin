@@ -49,11 +49,7 @@ export const useOrderStore = defineStore("order",{
                 return false;
 			}
 		},
-		async sendDispatchNotification(token, paymentId, courierName, trackingId){
-			console.log(token);
-			console.log(paymentId);
-			console.log(courierName);
-			console.log(trackingId);
+		async sendDispatchNotification(token, paymentId, trackingId, courierName){
 			try {
 				let config = {
 					headers: {
@@ -67,7 +63,7 @@ export const useOrderStore = defineStore("order",{
     				"courierName" : courierName 
 				}, config);
                 if (response.status == '200'){
-					toast.info('Dispatch Notification sent');
+					toast.info(response.data['message']);
                     return true;   
                 }
                 else{

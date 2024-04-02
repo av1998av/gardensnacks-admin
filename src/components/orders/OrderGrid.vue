@@ -9,6 +9,7 @@
       <th scope="col">Status</th>
       <th scope="col">Shipping Id</th>
       <th scope="col">Shiping info</th>
+      <th scope="col">Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -23,7 +24,10 @@
       </td>
       <td>
         <span v-if="isShippingInfoAvl(item)">{{item.Payment[0].OrderDispatch['courierName']}}</span>        
-        <button v-else class="btn btn-warning btn-sm" v-on:click="showDispatchForm(item.Payment[item.Payment.length-1])">Add Shipping info</button>
+      </td>
+      <td>
+        <button v-if="!isShippingInfoAvl(item)" class="btn btn-warning btn-sm" v-on:click="showDispatchForm(item.Payment[item.Payment.length-1])">Add Shipping info</button>
+        <button v-else-if="item.status == 'shipped'" @click="markAsDeliveredDialog = true" class="btn btn-info">Mark as delivered</button>
       </td>
     </tr>    
   </tbody>
@@ -39,6 +43,23 @@
 <w-overlay v-model="showDispatchFormOverlay">
 	<dispatch-form @sendDispatchNotification="sendDispatchNotificationToStore" :paymentId="currPaymentId"></dispatch-form>
 </w-overlay>
+
+<w-dialog
+  v-model="markAsDeliveredDialog"
+  :fullscreen="false"
+  :width="300"
+  :persistent="false"
+  :persistent-no-animation="false"
+>
+  
+  <div>
+    Are you sure to mark this order as delivered?
+  </div>
+
+  <template #actions>
+    <button class="btn btn-warning" @click="markAsDeliveredDialog = false">Close</button>
+  </template>
+</w-dialog>
 </template>
 
 <script>
@@ -51,6 +72,7 @@ export default {
       showUserOverlay: false,
       showAddressOverlay: false,
       showDispatchFormOverlay: false,
+      markAsDeliveredDialog: false,
       currPaymentId: null,
       currUser: null,
       currAddress : null,
