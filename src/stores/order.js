@@ -76,6 +76,30 @@ export const useOrderStore = defineStore("order",{
 				toast.error(error.response.data.message);
                 return false;
 			}
+		},
+		async markAsDelivered(token, orderId){
+			try {
+				let config = {
+					headers: {
+						'Authorization' : token
+					}
+				}
+				var request_url = api_url + '/deliver/' + orderId;
+				var response = await axios.put(request_url,null,config);
+                if (response.status == '200'){
+					toast.info(response.data['message']);
+                    return true;   
+                }
+                else{
+                    toast.error(response.data['message']);                    
+                    return false;
+                }
+			}
+			catch(error){
+				console.log(error);
+				toast.error(error.response.data.message);
+                return false;
+			}
 		}
 	},
 	persist: true,

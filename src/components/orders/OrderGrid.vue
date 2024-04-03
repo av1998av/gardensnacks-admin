@@ -27,7 +27,7 @@
       </td>
       <td>
         <button v-if="!isShippingInfoAvl(item)" class="btn btn-warning btn-sm" v-on:click="showDispatchForm(item.Payment[item.Payment.length-1])">Add Shipping info</button>
-        <button v-else-if="item.status == 'shipped'" @click="markAsDeliveredDialog = true" class="btn btn-info">Mark as delivered</button>
+        <button v-else-if="item.status == 'shipped'" @click="showDeliverDialog(item)" class="btn btn-info">Mark as delivered</button>
       </td>
     </tr>    
   </tbody>
@@ -57,7 +57,8 @@
   </div>
 
   <template #actions>
-    <button class="btn btn-warning" @click="markAsDeliveredDialog = false">Close</button>
+    <button class="btn btn-success me-2" @click="markAsDelivered(item)">Proceed</button>
+    <button class="btn btn-danger me-2" @click="markAsDeliveredDialog = false">Close</button>
   </template>
 </w-dialog>
 </template>
@@ -74,11 +75,12 @@ export default {
       showDispatchFormOverlay: false,
       markAsDeliveredDialog: false,
       currPaymentId: null,
+      currItem: null,
       currUser: null,
       currAddress : null,
     }
   },
-  emits: ['sendDispatchNotificationToParent'],
+  emits: ['sendDispatchNotificationToParent','sendDeliverNotificationToParent'],
 	props: ['summary'],
   components : {UserProfile, UserAddress, DispatchForm},
   methods: {
@@ -91,6 +93,10 @@ export default {
       this.showDispatchFormOverlay = true;
       this.currPaymentId = payment["paymentId"];
     },
+    showDeliverDialog(item){
+      this.markAsDeliveredDialog = true;
+      this.currItem = item;
+    },
     loadUserAddress(address){
       this.currAddress = address;
       this.showAddressOverlay = true;
@@ -100,6 +106,9 @@ export default {
         return true
       }
       return false
+    },
+    markAsDelivered(){
+      this.$emit('sendDeliverNotificationToParent', this.currItem.orderId);
     },
     sendDispatchNotificationToStore(paymentId, trackingId, courier){
       this.$emit('sendDispatchNotificationToParent', paymentId, trackingId, courier);
