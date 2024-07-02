@@ -35,7 +35,8 @@ export const useProductStore = defineStore("product",{
 							id : response.data['products'][item]['id'],
 							name : response.data['products'][item]['name'],
 							subtitle : response.data['products'][item]['subtitle'],
-							image : response.data['products'][item]['Images'][0]['src']
+							image : response.data['products'][item]['Images'][0]['src'],
+							available: response.data['products'][item]['available']							
 						};
 						this.products.push(product);
 					}

@@ -6,7 +6,8 @@
 			<th>ID</th>
 			<th>Name</th>
 			<th>Description</th>
-			<th>Subtitle</th>
+			<th>Available</th>
+			<th>Image</th>
 			<th>Edit</th>
 		</tr>
 	</thead>
@@ -14,8 +15,10 @@
 		<tr v-for="item in products" :key="item.id">
 			<td>{{item.id}}</td>			
 			<td>{{item.name}}</td>
-			<td>{{item.subtitle}}</td>
-			<td><img :src="item.image" alt="" style="max-height:260px;max-width:250px"></td>
+			<td>{{item.description}}</td>
+			<td>{{item.available}}</td>
+			<!-- <td><img :src="item.image" alt="" style="max-height:260px;max-width:250px"></td> -->
+			<td></td>
 			<td><button class="btn btn-primary">Edit</button></td>
 		</tr>
 	</tbody>
