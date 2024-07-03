@@ -17,7 +17,7 @@
       <td>{{item.orderId}}</td>
       <td><button class="btn btn-primary btn-sm" v-on:click="loadUserProfile(item.User)">Profile</button></td>
       <td><button class="btn btn-success btn-sm" v-on:click="loadUserAddress(item.Address)">Address</button></td>
-      <td><button class="btn btn-danger btn-sm">Bill</button></td>
+      <td><button class="btn btn-danger btn-sm" v-on:click="fetchBill(item.orderId)">Bill</button></td>
       <td>{{item.status}}</td>
       <td>
         <span v-if="isShippingInfoAvl(item)">{{item.Payment[0].OrderDispatch['trackingId']}}</span>        
@@ -109,6 +109,9 @@ export default {
     },
     markAsDelivered(){
       this.$emit('sendDeliverNotificationToParent', this.currItem.orderId);
+    },
+    fetchBill(orderId){
+      this.$emit('fetchBillNotification', orderId);
     },
     sendDispatchNotificationToStore(paymentId, trackingId, courier){
       this.$emit('sendDispatchNotificationToParent', paymentId, trackingId, courier);

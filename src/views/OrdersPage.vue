@@ -23,7 +23,7 @@
         </div>
       </div>    
   </div>
-  <order-grid @sendDispatchNotificationToParent="sendDispatchNotificationToStore" @sendDeliverNotificationToParent="sendDeliverNotificationToStore" :summary=summary></order-grid>
+  <order-grid @sendDispatchNotificationToParent="sendDispatchNotificationToStore" @sendDeliverNotificationToParent="sendDeliverNotificationToStore" @fetchBillNotification="fetchBillFromStore" :summary=summary></order-grid>
 </div>
 </template>
 
@@ -43,7 +43,7 @@ export default {
         }
     },
   methods: {
-        ...mapActions(useOrderStore, ['fetchOrders','sendDispatchNotification','markAsDelivered']),
+        ...mapActions(useOrderStore, ['fetchOrders','sendDispatchNotification','markAsDelivered','fetchBill']),
         ...mapState(useUserStore, {
             getToken: 'getToken'
         }),
@@ -92,6 +92,22 @@ export default {
                 if(success){
                     this.isLoading = false;
                     this.summary = this.getOrders();
+                }
+            }
+            catch(error){
+                console.log(error);
+            }
+        },
+        async fetchBillFromStore(orderId){
+          try{
+                this.isLoading = true;
+                var token = this.getToken();
+                var link = await this.fetchBill(token,orderId);
+                if(link != null){
+                    window.open(link, '_blank')
+                    this.isLoading = false;
+                    this.summary = this.getOrders();
+                    console.log(this.summary);
                 }
             }
             catch(error){

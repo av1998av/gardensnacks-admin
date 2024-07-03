@@ -100,6 +100,34 @@ export const useOrderStore = defineStore("order",{
 				toast.error(error.response.data.message);
                 return false;
 			}
+		},
+		async fetchBill(token, orderId){
+			try {
+				console.log('-------------');
+				console.log(token);
+				console.log('-------------');
+				let config = {
+					headers: {
+						'Authorization' : token
+					}
+				}
+				var request_url = api_url + '/bill/' + orderId;
+				var response = await axios.get(request_url,config);
+                if (response.status == '200'){
+					toast.info(response.data['bill']);
+					// window.open(response.data['bill'], target='_blank');
+                    return response.data['bill'];   
+                }
+                else{
+                    toast.error(response.data['message']);                    
+                    return false;
+                }
+			}
+			catch(error){
+				console.log(error);
+				toast.error(error.response.data.message);
+                return false;
+			}
 		}
 	},
 	persist: true,
