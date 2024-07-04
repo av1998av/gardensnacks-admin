@@ -3,11 +3,11 @@
 <div v-else class="container">
   <div class="mt-4"><p class="h3">Orders</p></div>
   <div class="row mt-4 text-center">
-      <div class="row">
-        <div class="col-md-5 col-12 mt-2">
+      <div class="row mx-auto">
+        <div class="col-md-4 col-12 mt-2">
           <input type="date" v-model="selectedDate" class="form-control form-control-lg w-100">
         </div>
-        <div class="col-md-5 col-12 mt-2">
+        <div class="col-md-4 col-12 mt-2">
           <select name="cars" class="form-control form-control-lg w-100" v-model="selectedstatus">
             <option value="created">Created</option>
             <option value="shipped">Shipped</option>
@@ -15,11 +15,11 @@
             <option value="cancelled">Cancelled</option>
           </select>
         </div>
-        <div class="col-md-1 col-12 mt-2">
-          <button class="btn btn-primary btn-lg" v-on:click="fetchOrdersFromStore()">Search</button> 
+        <div class="col-md-2 col-12 mt-2">
+          <button class="btn btn-primary btn-lg w-100" v-on:click="fetchOrdersFromStore()">Search</button> 
         </div>
-        <div class="col-md-1 col-12 mt-2">
-          <button class="btn btn-danger btn-lg" v-on:click="clearFilters()">Clear</button> 
+        <div class="col-md-2 col-12 mt-2">
+          <button class="btn btn-danger btn-lg w-100" v-on:click="clearFilters()">Clear</button> 
         </div>
       </div>    
   </div>

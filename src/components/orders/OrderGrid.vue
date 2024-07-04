@@ -1,5 +1,6 @@
 <template>
-  <table class="table mt-5">
+  <div class="table-responsive">
+    <table class="table mt-5">
   <thead>
     <tr>
       <th scope="col">OrderId</th>
@@ -32,6 +33,7 @@
     </tr>    
   </tbody>
 </table>
+  </div>
 <w-overlay v-model="showUserOverlay">
 	<user-profile :user="currUser"></user-profile>
 </w-overlay>

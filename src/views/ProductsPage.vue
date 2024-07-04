@@ -1,5 +1,9 @@
 <template>
-  <product-grid :products=products></product-grid>
+<base-spinner v-if="isLoading" />
+<div v-else class="container">
+    <div class="mt-4"><p class="h3">Products</p></div>
+    <product-grid :products=products></product-grid>
+</div>
 </template>
 
 <script>
@@ -12,6 +16,7 @@ export default {
 	data(){
 		return {
 			products: [],
+            isLoading: false
 		}
 	},
 	methods: {
