@@ -103,9 +103,6 @@ export const useOrderStore = defineStore("order",{
 		},
 		async fetchBill(token, orderId){
 			try {
-				console.log('-------------');
-				console.log(token);
-				console.log('-------------');
 				let config = {
 					headers: {
 						'Authorization' : token
@@ -114,8 +111,7 @@ export const useOrderStore = defineStore("order",{
 				var request_url = api_url + '/bill/' + orderId;
 				var response = await axios.get(request_url,config);
                 if (response.status == '200'){
-					toast.info(response.data['bill']);
-					// window.open(response.data['bill'], target='_blank');
+					// toast.info(response.data['bill']);					
                     return response.data['bill'];   
                 }
                 else{

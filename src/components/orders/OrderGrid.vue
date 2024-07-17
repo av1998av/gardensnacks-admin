@@ -4,7 +4,7 @@
   <thead>
     <tr>
       <th scope="col">OrderId</th>
-      <th scope="col">Profile</th>
+      <!-- <th scope="col">Profile</th> -->
       <th scope="col">Address</th>
       <th scope="col">Bill</th>
       <th scope="col">Status</th>
@@ -16,7 +16,7 @@
   <tbody>
     <tr v-for="item in summary" :key="item.id">
       <td>{{item.orderId}}</td>
-      <td><button class="btn btn-primary btn-sm" v-on:click="loadUserProfile(item.User)">Profile</button></td>
+      <!-- <td><button class="btn btn-primary btn-sm" v-on:click="loadUserProfile(item.User)">Profile</button></td> -->
       <td><button class="btn btn-success btn-sm" v-on:click="loadUserAddress(item.Address)">Address</button></td>
       <td><button class="btn btn-danger btn-sm" v-on:click="fetchBill(item.orderId)">Bill</button></td>
       <td>{{item.status}}</td>
