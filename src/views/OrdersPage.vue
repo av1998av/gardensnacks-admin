@@ -76,8 +76,7 @@ export default {
                 var success = await this.sendDispatchNotification(token,paymentId, trackingId, courierName);
                 if(success){
                     this.isLoading = false;
-                    // this.summary = this.getOrders();
-                    // console.log(this.summary);
+                    this.fetchOrdersFromStore();
                 }
             }
             catch(error){
@@ -91,7 +90,7 @@ export default {
                 var success = await this.markAsDelivered(token,orderId);
                 if(success){
                     this.isLoading = false;
-                    this.summary = this.getOrders();
+                    this.fetchOrdersFromStore();
                 }
             }
             catch(error){
