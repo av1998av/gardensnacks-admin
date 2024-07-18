@@ -3,7 +3,9 @@
     <table class="table mt-5">
   <thead>
     <tr>
-      <th scope="col">OrderId</th>
+      <th scope="col">Name</th>
+      <th scope="col">City</th>
+      <th scope="col">Amount</th>
       <!-- <th scope="col">Profile</th> -->
       <th scope="col">Address</th>
       <th scope="col">Bill</th>
@@ -11,11 +13,15 @@
       <th scope="col">Shipping Id</th>
       <th scope="col">Shiping info</th>
       <th scope="col">Actions</th>
+      <th scope="col">OrderId</th>
+      <th scope="col">PaymentId</th>
     </tr>
   </thead>
   <tbody>
     <tr v-for="item in summary" :key="item.id">
-      <td>{{item.orderId}}</td>
+      <td>{{item.Address.name}}</td>
+      <td>{{item.Address.city}}</td>
+      <td>{{item.Payment[0].amount}}</td>
       <!-- <td><button class="btn btn-primary btn-sm" v-on:click="loadUserProfile(item.User)">Profile</button></td> -->
       <td><button class="btn btn-success btn-sm" v-on:click="loadUserAddress(item.Address)">Address</button></td>
       <td><button class="btn btn-danger btn-sm" v-on:click="fetchBill(item.orderId)">Bill</button></td>
@@ -30,6 +36,8 @@
         <button v-if="!isShippingInfoAvl(item)" class="btn btn-warning btn-sm" v-on:click="showDispatchForm(item.Payment[item.Payment.length-1])">Add Shipping info</button>
         <button v-else-if="item.status == 'shipped'" @click="showDeliverDialog(item)" class="btn btn-info">Mark as delivered</button>
       </td>
+      <td>{{item.orderId}}</td>
+      <td>{{item.Payment[0].paymentId}}</td>
     </tr>    
   </tbody>
 </table>
