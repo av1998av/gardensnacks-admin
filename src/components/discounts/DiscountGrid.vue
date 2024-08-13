@@ -9,26 +9,12 @@
 			<th scope="col">Action</th>
 		</thead>
 		<tbody>
-			<tr>
-				<td>1</td>
-				<td>Test35</td>
-				<td>35</td>
-				<td>Active</td>
-				<td><button class="btn btn-primary">Deactivate</button></td>
-			</tr>
-			<tr>
-				<td>1</td>
-				<td>Test35</td>
-				<td>35</td>
-				<td>Active</td>
-				<td><button class="btn btn-primary">Deactivate</button></td>
-			</tr>
-			<tr>
-				<td>1</td>
-				<td>Test35</td>
-				<td>35</td>
-				<td>Active</td>
-				<td><button class="btn btn-primary">Deactivate</button></td>
+			<tr v-for="item in discounts" :key="item.id">
+				<td>{{item.id}}</td>
+				<td>{{item.code}}</td>
+				<td>{{item.percent*100}}</td>
+				<td>{{item.isLive}}</td>
+				<td><button v-if="item.isLive" class="btn btn-primary">Deactivate</button></td>
 			</tr>
 		</tbody>
 	</table>
@@ -37,6 +23,7 @@
 
 <script>
 export default {
+	props: ['discounts'],
 }
 </script>
 
