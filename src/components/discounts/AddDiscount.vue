@@ -1,31 +1,35 @@
 <template>
-  <div class="card w-75">
+  <div class="card">
   <div class="card-body">
     <h5 class="card-title float-start">Add Discount</h5>
-	<form class="mt-5">
-		<div class="form-group row">
-    		<label class="col-sm-2 col-form-label">Code</label>
-    		<div class="col-sm-10">
-      			<input type="email" class="form-control">
-    		</div>
-  		</div>
-		<br>
-  		<div class="form-group row">
-    		<label class="col-sm-2 col-form-label">Percent</label>
-    		<div class="col-sm-10">
-      			<input type="number" class="form-control">
-    		</div>
-  		</div>
-		<br>
-		<button type="submit" class="btn btn-primary w-100">Submit</button>
-	</form>
+	<br><br>
+	<div class="mb-3">
+		<label class="form-label float-start">Code</label>
+		<input type="text" v-model="code" class="form-control">
+	</div>
+	<div class="mb-3">
+		<label class="form-label float-start">Percent</label>
+		<input type="decimal" v-model="percent" class="form-control">
+	</div>
+	<button v-on:click="addDiscountNotificationFromForm" class="btn btn-primary w-100">Submit</button>
   </div>
 </div>
 </template>
 
 <script>
 export default {
-  
+	data(){
+		return {
+			code: '',
+			percent: 0
+		}
+	},
+	emits: ['addDiscountNotification'],
+	methods: {
+		addDiscountNotificationFromForm(){
+			this.$emit('addDiscountNotification', this.code, this.percent)
+		}
+	}
 }
 </script>
 

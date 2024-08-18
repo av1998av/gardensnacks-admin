@@ -2,7 +2,7 @@
   <base-spinner v-if="isLoading"></base-spinner>
   <div class="container">
     <div class="mt-4"><p class="h3">Discounts</p></div>
-    <discount-grid :discounts=discounts></discount-grid>
+    <discount-grid :discounts=discounts @addDiscountNotificationToParent=addDiscountNotification></discount-grid>
   </div>
 </template>
 
@@ -20,7 +20,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(useDiscountStore, ['fetchDiscounts']),
+    ...mapActions(useDiscountStore, ['fetchDiscounts','createDiscount']),
     ...mapState(useUserStore, {
       getToken: 'getToken'
     }),
@@ -42,6 +42,20 @@ export default {
         console.log(error);
       }
     },
+    async addDiscountNotification(code, percent){
+      try{
+        this.isLoading = true;
+        var token = this.getToken();
+        var success = await this.createDiscount({code, percent}, token);
+        if(success){
+          this.isLoading = false;
+          this.fetchDiscountsFromStore();
+        }
+      }
+      catch(error){
+        console.log(error);
+      }
+    }
   },
   created(){
     this.fetchDiscountsFromStore();

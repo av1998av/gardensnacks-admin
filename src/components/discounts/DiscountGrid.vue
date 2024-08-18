@@ -19,7 +19,7 @@
 		</tbody>
 	</table>
 	<w-overlay v-model="showAddDiscountOverlay">
-		<add-discount></add-discount>
+		<add-discount @addDiscountNotification=addDiscountNotificationToStore></add-discount>
 	</w-overlay>
 </div>
 <button class="btn btn-lg btn-success w-100" @click="showAddDiscountOverlay = true">Add Discount</button>
@@ -29,10 +29,17 @@
 import AddDiscount from './AddDiscount.vue';
 export default {
 	props: ['discounts'],
+	emits: ['addDiscountNotificationToParent'],
 	components : {AddDiscount},
 	data(){
 		return {
 			showAddDiscountOverlay: false
+		}
+	},
+	methods: {
+		addDiscountNotificationToStore(code, percent){
+			this.showAddDiscountOverlay = false;
+			this.$emit('addDiscountNotificationToParent', code, percent);
 		}
 	}
 }

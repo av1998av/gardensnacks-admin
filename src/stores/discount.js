@@ -40,6 +40,34 @@ export const useDiscountStore = defineStore("discount",{
 				toast.error(error.response.data.message);
                 return false;
 			}
+		},
+		async createDiscount(discount, token){
+			//validation errors are not handled here
+			try {
+				let config = {
+					headers: {
+						'Authorization' : token
+					}
+				}
+				var request_url = api_url + '/discount';
+				var response = await axios.post(request_url, {
+					"code" : discount['code'],
+					"percent" : discount['percent']
+				}, config);
+				if (response.status == '200'){
+					toast.info('Discount created');
+					return true;
+				}
+				else{
+					toast.error(response.data['message']);
+					return false;
+				}
+			}
+			catch(error){
+				console.log(error);
+				toast.error(error.response.data.message);
+                return false;
+			}
 		}
 	}
 });
