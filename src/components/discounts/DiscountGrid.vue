@@ -1,5 +1,5 @@
 <template>
-  <div class="table-responsive text-center">
+<div class="table-responsive text-center">
 	<table class="table mt-5 mx-auto">
 		<thead>
 			<th scope="col">Id</th>
@@ -18,12 +18,23 @@
 			</tr>
 		</tbody>
 	</table>
-  </div>
+	<w-overlay v-model="showAddDiscountOverlay">
+		<add-discount></add-discount>
+	</w-overlay>
+</div>
+<button class="btn btn-lg btn-success w-100" @click="showAddDiscountOverlay = true">Add Discount</button>
 </template>
 
 <script>
+import AddDiscount from './AddDiscount.vue';
 export default {
 	props: ['discounts'],
+	components : {AddDiscount},
+	data(){
+		return {
+			showAddDiscountOverlay: false
+		}
+	}
 }
 </script>
 
