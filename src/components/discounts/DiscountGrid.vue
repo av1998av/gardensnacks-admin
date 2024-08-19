@@ -14,7 +14,10 @@
 				<td>{{item.code}}</td>
 				<td>{{item.percent*100}}</td>
 				<td>{{item.isLive}}</td>
-				<td><button v-if="item.isLive" class="btn btn-primary">Deactivate</button></td>
+				<td>
+					<button v-if="item.isLive" @click="deactivateDiscountNotificationToStore(item.id)" class="btn btn-danger">Deactivate</button>
+					<button v-else @click="activateDiscountNotificationToStore(item.id)" class="btn btn-primary">Activate</button>
+				</td>
 			</tr>
 		</tbody>
 	</table>
@@ -29,7 +32,7 @@
 import AddDiscount from './AddDiscount.vue';
 export default {
 	props: ['discounts'],
-	emits: ['addDiscountNotificationToParent'],
+	emits: ['addDiscountNotificationToParent', 'deactivateDiscountNotificationToParent'],
 	components : {AddDiscount},
 	data(){
 		return {
@@ -40,6 +43,12 @@ export default {
 		addDiscountNotificationToStore(code, percent){
 			this.showAddDiscountOverlay = false;
 			this.$emit('addDiscountNotificationToParent', code, percent);
+		},
+		deactivateDiscountNotificationToStore(discountId){
+			this.$emit('deactivateDiscountNotificationToParent', discountId)
+		},
+		activateDiscountNotificationToStore(discountId){
+			this.$emit('activateDiscountNotificationToParent', discountId)
 		}
 	}
 }

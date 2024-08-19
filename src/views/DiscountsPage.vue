@@ -2,7 +2,12 @@
   <base-spinner v-if="isLoading"></base-spinner>
   <div class="container">
     <div class="mt-4"><p class="h3">Discounts</p></div>
-    <discount-grid :discounts=discounts @addDiscountNotificationToParent=addDiscountNotification></discount-grid>
+    <discount-grid 
+      :discounts=discounts 
+      @addDiscountNotificationToParent=addDiscountNotification
+      @deactivateDiscountNotificationToParent=deactivateDiscountNotification
+      @activateDiscountNotificationToParent=activateDiscountNotification
+    ></discount-grid>
   </div>
 </template>
 
@@ -20,7 +25,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(useDiscountStore, ['fetchDiscounts','createDiscount']),
+    ...mapActions(useDiscountStore, ['fetchDiscounts','createDiscount','deactivateDiscount','activateDiscount']),
     ...mapState(useUserStore, {
       getToken: 'getToken'
     }),
@@ -47,6 +52,34 @@ export default {
         this.isLoading = true;
         var token = this.getToken();
         var success = await this.createDiscount({code, percent}, token);
+        if(success){
+          this.isLoading = false;
+          this.fetchDiscountsFromStore();
+        }
+      }
+      catch(error){
+        console.log(error);
+      }
+    },
+    async deactivateDiscountNotification(discountId){
+      try{
+        this.isLoading = true;
+        var token = this.getToken();
+        var success = await this.deactivateDiscount(discountId, token);
+        if(success){
+          this.isLoading = false;
+          this.fetchDiscountsFromStore();
+        }
+      }
+      catch(error){
+        console.log(error);
+      }
+    },
+    async activateDiscountNotification(discountId){
+      try{
+        this.isLoading = true;
+        var token = this.getToken();
+        var success = await this.activateDiscount(discountId, token);
         if(success){
           this.isLoading = false;
           this.fetchDiscountsFromStore();

@@ -68,6 +68,56 @@ export const useDiscountStore = defineStore("discount",{
 				toast.error(error.response.data.message);
                 return false;
 			}
+		},
+		async deactivateDiscount(discountId, token){
+			//validation errors are not handled here
+			try {
+				let config = {
+					headers: {
+						'Authorization' : token
+					}
+				}
+				var request_url = api_url + '/discount/' + discountId + '/deactivate';
+				var response = await axios.put(request_url, null, config);
+				if (response.status == '200'){
+					toast.info('Discount deactivated');
+					return true;
+				}
+				else{
+					toast.error(response.data['message']);
+					return false;
+				}
+			}
+			catch(error){
+				console.log(error);
+				toast.error(error.response.data.message);
+                return false;
+			}
+		},
+		async activateDiscount(discountId, token){
+			//validation errors are not handled here
+			try {
+				let config = {
+					headers: {
+						'Authorization' : token
+					}
+				}
+				var request_url = api_url + '/discount/' + discountId + '/activate';
+				var response = await axios.put(request_url, null, config);
+				if (response.status == '200'){
+					toast.info('Discount deactivated');
+					return true;
+				}
+				else{
+					toast.error(response.data['message']);
+					return false;
+				}
+			}
+			catch(error){
+				console.log(error);
+				toast.error(error.response.data.message);
+                return false;
+			}
 		}
 	}
 });
