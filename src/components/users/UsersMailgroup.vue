@@ -10,22 +10,31 @@
         <p>{{selectedUserIds.length}} Users</p>
       </div>
       <div class="mb-3">
-        <label class="form-label">Message Group</label>
-        <input type="text" v-model="trackingId" class="form-control">
+        <label class="form-label">Select Message Group</label>
+        <select v-model="chosenMessageGroupId" class="form-select">
+          <option v-for="item in messageGroups" :key="item.id" :value="item.id">{{item.name}}</option>      
+        </select>
       </div>
-      <button class="btn btn-primary">Submit</button>
+      <button v-on:click="sendAddUsersToMessageGroupNotification()" class="btn btn-primary">Submit</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['selectedUserIds'],
+  props: ['selectedUserIds','messageGroups'],
+  emits: ['addUsersToMessageGroupNotificationToParent'],
   data(){
 		return {
+      chosenMessageGroupId: null,
 			showAddDiscountOverlay: false
 		}
 	},
+  methods: {
+    sendAddUsersToMessageGroupNotification(){
+      this.$emit('addUsersToMessageGroupNotificationToParent', this.chosenMessageGroupId);
+    }
+  }
 }
 </script>
 

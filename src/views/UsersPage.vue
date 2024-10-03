@@ -1,5 +1,6 @@
 <template>
-  <div class="mx-auto" style="width:95%">
+  <base-spinner v-if="isLoading" />
+  <div v-else class="mx-auto" style="width:95%">
     <div class="mt-4 d-flex">
       <span class="h3">Users</span>
       <button class="btn btn-success ms-auto" v-if="table.selectedRows.length > 0" v-on:click="showAddToGroupOverlay = true">Add to MailGroup</button>
@@ -19,7 +20,7 @@
     >
     </w-table>
     <w-overlay v-model="showAddToGroupOverlay">
-		  <users-mailgroup :selectedUserIds=table.selectedRows></users-mailgroup>
+		  <users-mailgroup @addUsersToMessageGroupNotificationToParent="addUsersToMessageGroupNotificationToStore" :selectedUserIds=table.selectedRows :messageGroups=messageGroups></users-mailgroup>
 	  </w-overlay>
   </div>
 </template>
@@ -28,10 +29,13 @@
 import UsersMailgroup from '../components/users/UsersMailgroup.vue';
 import { mapActions, mapState } from 'pinia'
 import { useUserStore } from '../stores/user';
+import { useMessageGroupStore } from '../stores/messageGroup';
 export default {
   components: { UsersMailgroup },
   data(){
     return {
+      isLoading: false,
+      messageGroups: [],
       showAddToGroupOverlay: false,
       table: {
         headers: [
@@ -54,12 +58,14 @@ export default {
   },
   methods: {
     ...mapActions(useUserStore, ['fetchUsers']),
+    ...mapActions(useMessageGroupStore, ['fetchMessageGroups','addUsersToMessageGroup']),
     ...mapState(useUserStore, {
-      getToken: 'getToken'
-    }),
-    ...mapState(useUserStore, {
+      getToken: 'getToken',
       getUsers: 'getUsers',
       getTotal: 'getTotal'
+    }),
+    ...mapState(useMessageGroupStore, {
+      getMessageGroups: 'getMessageGroups',
     }),
     async fetch ({ page, start, end, total, itemsPerPage, sorting }) {           
       try{
@@ -76,6 +82,36 @@ export default {
           console.log(error);
       }
     },
+    async fetchMessageGroupsFromStore(){            
+      try{
+        var token = this.getToken();
+        var success = await this.fetchMessageGroups(token);
+        if(success){
+            this.messageGroups = this.getMessageGroups();
+            console.log(this.messageGroups);
+        }
+      }
+      catch(error){
+          console.log(error);
+      }
+    },
+    async addUsersToMessageGroupNotificationToStore(messageGroupId){
+      try{
+        this.isLoading = true;
+        var token = this.getToken();
+        var success = await this.addUsersToMessageGroup(this.table.selectedRows, messageGroupId, token); 
+        if(success){
+          this.isLoading = false;
+          this.showAddToGroupOverlay = false;
+        }       
+      }
+      catch(error){
+          console.log(error);
+      }
+    }
+  },
+  created(){
+    this.fetchMessageGroupsFromStore();
   }
 }
 </script>
