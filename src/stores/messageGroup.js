@@ -51,8 +51,8 @@ export const useMessageGroupStore = defineStore("MessageGroup",{
 				}
 				var request_url = api_url + '/MessageGroup';
 				var response = await axios.post(request_url, {
-					"code" : MessageGroup['code'],
-					"percent" : MessageGroup['percent']
+					"name" : MessageGroup['name'],
+					"category" : MessageGroup['category']
 				}, config);
 				if (response.status == '200'){
 					toast.info('MessageGroup created');

@@ -19,6 +19,9 @@
 				<li class="nav-item">
 					<a class="nav-link" href="/messagGroups">Message Groups</a>
 				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/jobs">Jobs</a>
+				</li>
 			</ul>			
 			</div>
 		</div>

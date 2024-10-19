@@ -5,6 +5,7 @@ import ProductsPage from '../views/ProductsPage.vue';
 import DiscountsPage from '../views/DiscountsPage.vue';
 import MessageGroupPage from '../views/MessageGroupPage.vue';
 import UsersPage from '../views/UsersPage.vue';
+import JobsPage from '../views/JobsPage.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/messagGroups',
       name: 'messagGroups',
       component: MessageGroupPage
+    },
+    {
+      path: '/jobs',
+      name: 'jobs',
+      component: JobsPage
     }
   ]
 })
