@@ -22,8 +22,28 @@
 				<li class="nav-item">
 					<a class="nav-link" href="/jobs">Jobs</a>
 				</li>
+				<li class="nav-item">
+					<a class="nav-link" v-on:click="callStorelogout()">Logout</a>
+				</li>
 			</ul>			
 			</div>
 		</div>
 	</nav>
 </template>
+
+<script>
+import { mapActions, mapState } from 'pinia';
+import { useUserStore } from '../stores/user';
+export default {
+	methods: {
+		...mapActions(useUserStore, ['logout']),
+    	...mapState(useUserStore, {
+      		getToken: 'getToken'
+    	}),
+		callStorelogout(){
+			this.logout();
+			this.$router.push({ path: '/user' })
+		}
+	}
+}
+</script>

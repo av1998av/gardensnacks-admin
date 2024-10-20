@@ -4,13 +4,15 @@
       <thead>
         <th scope="col">Id</th>
         <th scope="col">Name</th>
-        <th scope="col">Category</th>        
+        <th scope="col">Category</th>
+        <th scope="col">Users #</th>
       </thead>
       <tbody>
         <tr v-for="item in messageGroups" :key="item.id">
           <td>{{item.id}}</td>
           <td>{{item.name}}</td>
           <td>{{item.category}}</td>
+          <td>{{item.userCount}}</td>
         </tr>
       </tbody>
     </table>

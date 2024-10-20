@@ -1,10 +1,9 @@
 import { defineStore } from 'pinia'
 import axios from "axios"
 import { useToast } from 'vue-toastification'
-
+import { useRouter, useRoute } from 'vue-router'
 const api_url = import.meta.env.VITE_API_URL;
 const toast = useToast()
-
 
 export const useUserStore = defineStore("user",{
     state: () => ({
@@ -27,6 +26,9 @@ export const useUserStore = defineStore("user",{
 		}
 	},
     actions: {
+		logout(){
+			this.token = null;			
+		},
 		async login(credentials){
 			try {
 				var response = await axios.post(api_url + '/signin', {
